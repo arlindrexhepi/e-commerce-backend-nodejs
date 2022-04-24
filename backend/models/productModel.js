@@ -23,6 +23,22 @@ const ProductSchema = mongoose.Schema(
     },
     category: {
       type: String,
+      enum: [
+        'Cameras',
+        'Lenses',
+        'Tripods',
+        'Consoles',
+        'Controllers',
+        'Computer Components',
+        'Desktops',
+        'Laptops',
+        'Headphones',
+        'Smartphones',
+        'Smartwatches',
+        'Soundbars',
+        'TVs',
+        'VRGaming',
+      ],
       required: [true, 'Please add the product category!'],
     },
     rating: {

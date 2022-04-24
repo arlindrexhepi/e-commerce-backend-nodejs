@@ -16,6 +16,7 @@ app.use(cors());
 
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/categories', require('./routes/categoryRoutes'));
+app.use('/api/banners', require('./routes/bannerRoutes'));
 
 app.use(errorHandler);
 
