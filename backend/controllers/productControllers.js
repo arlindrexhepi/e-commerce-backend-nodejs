@@ -1,12 +1,22 @@
 const asyncHandler = require('express-async-handler');
-
 const Product = require('../models/productModel');
 
 // Get All Products
 // @route GET /api/products
 // @access Private
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find();
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+
+  const products = await Product.find().limit(limit).skip(startIndex).exec();
+
+  if (!products) {
+    res.status(404);
+    throw new Error('Product not found!');
+  }
+
   res.status(200).json(products);
 });
 
