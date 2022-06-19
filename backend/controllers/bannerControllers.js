@@ -16,6 +16,7 @@ const getBanners = asyncHandler(async (req, res) => {
 const setBanner = asyncHandler(async (req, res) => {
   if (!req.body) {
     res.status(400);
+    res.json(req.body);
     throw new Error('Please add a text field');
   }
   const newBanner = await Banner.create(req.body);

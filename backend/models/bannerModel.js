@@ -15,4 +15,17 @@ const BannerSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Banner', BannerSchema);
+const BannersSchema = mongoose.Schema({
+  desktop: {
+    type: Array,
+    of: BannerSchema,
+    required: true,
+  },
+  mobile: {
+    type: Array,
+    of: BannerSchema,
+    required: true,
+  },
+});
+
+module.exports = mongoose.model('Banner', BannersSchema);

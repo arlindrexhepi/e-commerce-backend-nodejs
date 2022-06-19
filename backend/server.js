@@ -14,9 +14,11 @@ app.use(express.urlencoded({ extended: false }));
 // Cors Setup
 app.use(cors());
 
-app.use('/api/products', require('./routes/productRoutes'));
-app.use('/api/categories', require('./routes/categoryRoutes'));
-app.use('/api/banners', require('./routes/bannerRoutes'));
+app.use('/api/v1/products', require('./routes/productRoutes'));
+app.use('/api/v1/cart', require('./routes/cartRoutes'));
+app.use('/api/v1/users', require('./routes/userRoutes'));
+app.use('/api/v1/categories', require('./routes/categoryRoutes'));
+app.use('/api/v1/banners', require('./routes/bannerRoutes'));
 
 app.use(errorHandler);
 
