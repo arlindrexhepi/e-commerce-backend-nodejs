@@ -12,7 +12,7 @@ router.route('/').get(protect, getCartProducts).post(protect, setCart);
 
 router
   .route('/:id')
-  .put(protect, updateCart)
+  .patch(protect, updateCart)
   .delete(protect, removeProductFromCart);
 
 module.exports = router;

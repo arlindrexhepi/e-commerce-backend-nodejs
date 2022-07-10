@@ -5,48 +5,61 @@ const Cart = require('../models/cartModel');
 // @route GET /api/products
 // @access Private
 const getCartProducts = asyncHandler(async (req, res) => {
-  const products = await Cart.find({ user: req.user.id });
+  const cart = await Cart.find({ user: req.user.id });
 
-  if (!products) {
+  if (!cart) {
     res.status(404);
     throw new Error('Product not found!');
   }
 
-  res.status(200).json(products);
+  res.status(200).json(cart);
 });
 
 // Get All Products
 // @route POST /api/products
 // @access Private
 const setCart = asyncHandler(async (req, res) => {
-  if (!req.body.text) {
+  if (!req.body.product) {
     res.status(400);
-    throw new Error('Please add a text field');
+    throw new Error('Please add a product in Cart');
   }
-  const newCart = await Cart.create({
-    text: req.body.text,
-    user: req.user.id,
-  });
+  // const product = await Product.findById(req.body.productId);
+  const cart = await Cart.find({ user: req.user.id });
 
-  res.status(200).json(newCart);
+  if (cart.length === 0) {
+    const newCart = await Cart.create({
+      products: req.body,
+      user: req.user.id,
+    });
+
+    return res.status(200).json(newCart);
+  }
+  res.status(400).json({ message: 'You cannot add more than one Cart!' });
 });
 
 // Get All Products
 // @route PUT /api/products/:id
 // @access Private
 const updateCart = asyncHandler(async (req, res) => {
-  const product = await Cart.findById(req.params.id);
+  const oldCart = await Cart.findById(req.params.id);
 
-  if (!product) {
+  if (!oldCart) {
     res.status(400);
     throw new Error('Product does not exist!');
   }
 
-  const updatedProduct = await Cart.findByIdAndUpdate(req.params.id, req.body, {
+  const newCart = {
+    user: oldCart.user,
+    _id: oldCart._id,
+    __v: oldCart.__v,
+    products: [...oldCart.products, req.body],
+  };
+
+  const updatedCart = await Cart.findByIdAndUpdate(req.params.id, newCart, {
     new: true,
   });
 
-  res.status(200).json(updatedProduct);
+  res.status(200).json(newCart);
 });
 
 // Get All Products
